@@ -59,19 +59,15 @@
     ],
     "notebookRenderer": [
       {
-        "id": "markdownItRenderer-katex",
-        "displayName": "Markdown it KaTeX renderer",
+        "id": "markdownItRenderer-mathjax",
+        "displayName": "Markdown it MathJax renderer",
         "entrypoint": {
           "extends": "markdownItRenderer",
-          "path": "./notebook-out/katex.js"
+          "path": "./notebook-out/mathjax.js"
         }
       }
     ],
     "markdown.markdownItPlugins": true,
-    "markdown.previewStyles": [
-      "./notebook-out/katex.min.css",
-      "./preview-styles/index.css"
-    ],
     "configuration": [
       {
         "title": "Markdown Math",
@@ -91,7 +87,7 @@
     "build-notebook": "node ./esbuild"
   },
   "dependencies": {
-    "@iktakahiro/markdown-it-katex": "https://github.com/mjbvz/markdown-it-katex.git"
+    "markdown-it-mathjax3": "^4.1.1"
   },
   "devDependencies": {
     "@types/markdown-it": "^0.0.0",

@@ -1458,7 +1458,8 @@ async function webviewPreloads(ctx: PreloadContext) {
 	}();
 
 	let hasPostedRenderedMathTelemetry = false;
-	const unsupportedKatexTermsRegex = /(\\(?:abovewithdelims|array|Arrowvert|arrowvert|atopwithdelims|bbox|bracevert|buildrel|cancelto|cases|class|cssId|ddddot|dddot|DeclareMathOperator|definecolor|displaylines|enclose|eqalign|eqalignno|eqref|hfil|hfill|idotsint|iiiint|label|leftarrowtail|leftroot|leqalignno|lower|mathtip|matrix|mbox|mit|mmlToken|moveleft|moveright|mspace|newenvironment|Newextarrow|notag|oldstyle|overparen|overwithdelims|pmatrix|raise|ref|renewenvironment|require|root|Rule|scr|shoveleft|shoveright|sideset|skew|Space|strut|style|texttip|Tiny|toggle|underparen|unicode|uproot)\b)/gi;
+	// TODO: update unsupported MathJax terms
+	const unsupportedMathJaxTermsRegex = /(\\(?:abovewithdelims|array|Arrowvert|arrowvert|atopwithdelims|bbox|bracevert|buildrel|cancelto|cases|class|cssId|ddddot|dddot|DeclareMathOperator|definecolor|displaylines|enclose|eqalign|eqalignno|eqref|hfil|hfill|idotsint|iiiint|label|leftarrowtail|leftroot|leqalignno|lower|mathtip|matrix|mbox|mit|mmlToken|moveleft|moveright|mspace|newenvironment|Newextarrow|notag|oldstyle|overparen|overwithdelims|pmatrix|raise|ref|renewenvironment|require|root|Rule|scr|shoveleft|shoveright|sideset|skew|Space|strut|style|texttip|Tiny|toggle|underparen|unicode|uproot)\b)/gi;
 
 	const viewModel = new class ViewModel {
 
@@ -1752,7 +1753,7 @@ async function webviewPreloads(ctx: PreloadContext) {
 				const root = this.element.shadowRoot;
 				if (root) {
 					if (!hasPostedRenderedMathTelemetry) {
-						const hasRenderedMath = root.querySelector('.katex');
+						const hasRenderedMath = root.querySelector('.mathjax');
 						if (hasRenderedMath) {
 							hasPostedRenderedMathTelemetry = true;
 							postNotebookMessage<webviewMessages.ITelemetryFoundRenderedMarkdownMath>('telemetryFoundRenderedMarkdownMath', {});
@@ -1760,7 +1761,7 @@ async function webviewPreloads(ctx: PreloadContext) {
 					}
 
 					const innerText = root.querySelector<HTMLElement>('#preview')?.innerText;
-					const matches = innerText?.match(unsupportedKatexTermsRegex);
+					const matches = innerText?.match(unsupportedMathJaxTermsRegex);
 					if (matches) {
 						postNotebookMessage<webviewMessages.ITelemetryFoundUnrenderedMarkdownMath>('telemetryFoundUnrenderedMarkdownMath', {
 							latexDirective: matches[0],

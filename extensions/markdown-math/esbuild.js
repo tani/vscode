@@ -3,7 +3,6 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 const path = require('path');
-const fse = require('fs-extra');
 const esbuild = require('esbuild');
 
 const args = process.argv.slice(2);
@@ -19,7 +18,7 @@ if (outputRootIndex >= 0) {
 const outDir = path.join(outputRoot, 'notebook-out');
 esbuild.build({
 	entryPoints: [
-		path.join(__dirname, 'notebook', 'katex.ts'),
+		path.join(__dirname, 'notebook', 'mathjax.ts'),
 	],
 	bundle: true,
 	minify: true,
@@ -30,11 +29,3 @@ esbuild.build({
 	target: ['es2020'],
 	incremental: isWatch,
 }).catch(() => process.exit(1));
-
-fse.copySync(
-	path.join(__dirname, 'node_modules/katex/dist/katex.min.css'),
-	path.join(outDir, 'katex.min.css'));
-
-fse.copySync(
-	path.join(__dirname, 'node_modules/katex/dist/fonts'),
-	path.join(outDir, 'fonts/'));

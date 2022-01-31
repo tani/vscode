@@ -23,8 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
 	return {
 		extendMarkdownIt(md: any) {
 			if (isEnabled()) {
-				const katex = require('@iktakahiro/markdown-it-katex');
-				return md.use(katex, { globalGroup: true });
+				const mathjax = require('markdown-it-mathjax3');
+				return md.use(mathjax, { globalGroup: true });
 			}
 			return md;
 		}
